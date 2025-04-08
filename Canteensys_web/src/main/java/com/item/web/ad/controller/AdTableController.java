@@ -9,13 +9,26 @@ import com.item.utils.ResultVo;
 import com.item.web.ad.entity.AdTable;
 import com.item.web.ad.entity.ListParm;
 import com.item.web.ad.service.AdTableService;
+import com.item.web.category.entity.SelectClass;
+import com.item.web.dish.entity.DishTable;
+import com.item.web.dish.service.DishTableService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/ad")
 public class AdTableController {
+
+    @Autowired
     private AdTableService adTableService;
+
+    @Autowired
+    private DishTableService dishTableService;
 
     // 新增
     @PostMapping
@@ -36,7 +49,7 @@ public class AdTableController {
     }
 
     // 删除
-    @GetMapping("/{adId}")
+    @DeleteMapping("/{adId}")
     public ResultVo delete(@PathVariable("adId") Long adId) {
         if(adTableService.removeById(adId)) {
             return ResultUtils.success("删除成功！");

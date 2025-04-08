@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.item.utils.ResultUtils;
 import com.item.utils.ResultVo;
+import com.item.web.category.entity.SelectClass;
 import com.item.web.dish.entity.DishParm;
 import com.item.web.dish.entity.DishTable;
 import com.item.web.dish.entity.ListParm;
@@ -16,7 +17,9 @@ import com.item.web.dish_specs.service.DishSpecsTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/dish")
@@ -69,4 +72,20 @@ public class DishTableController {
         return ResultUtils.success("删除成功!");
     }
 // 列表
+//列表
+@GetMapping("/getSelectList")
+public ResultVo getSelectList(){
+    List<DishTable> list = dishTableService.list();
+    //组装为前端下拉选择器需要的数据格式
+    List<SelectClass> selectList = new ArrayList<>();
+    Optional.ofNullable(list).orElse(new ArrayList<>())
+            .stream()
+            .forEach(item -> {
+                SelectClass type = new SelectClass();
+                type.setLabel(item.getDishName());
+                type.setValue(item.getDishId());
+                selectList.add(type);
+            });
+    return ResultUtils.success("查询成功!", selectList);
+}
 }
