@@ -25,6 +25,15 @@ web:
   uploadpath: E:/DishImages/
   load-path: file:E:/DishImages/
 
+  # 微信小程序相关
+  Wechat:
+    Applets:
+      # 小程序appID
+      appId: wx05eda073665c9384
+      # 小程序秘钥
+      appSecret: 362870028db018bc2a0cf1081bf68763
+
+
 logging:
   pattern:
     console: '%d{yyyy-MM-dd} [%thread] %-5level %logger - %msg%n'
