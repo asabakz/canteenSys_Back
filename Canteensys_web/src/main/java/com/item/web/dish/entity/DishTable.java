@@ -23,6 +23,8 @@ public class DishTable {
     private String dishUnit;
     private String orderNum;
 
+    private String onload;
+
     @TableField(exist = false)
     List<DishSpecsTable> specs = new ArrayList<>();
 }

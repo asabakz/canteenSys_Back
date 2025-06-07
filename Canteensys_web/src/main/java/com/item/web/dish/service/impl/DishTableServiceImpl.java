@@ -23,19 +23,19 @@ public class DishTableServiceImpl extends ServiceImpl<DishTableMapper, DishTable
 
     @Override
     public void saveDish(DishParm parm) {
-        //1. 保存菜品
+        // 1. 保存菜品：new 实例，拷贝属性时排除 dishId
         DishTable dish = new DishTable();
-        BeanUtils.copyProperties(parm, dish);
+        BeanUtils.copyProperties(parm, dish, "dishId");
         int num = baseMapper.insert(dish);
-        //2. 保存规格、价格
-        if(num > 0){
+
+        // 2. 保存规格、价格
+        if (num > 0) {
             List<DishSpecsTable> specs = parm.getSpecs();
-            for (int i = 0; i < specs.size(); ++i) {
-                specs.get(i).setDishId(dish.getDishId());
+            for (DishSpecsTable spec : specs) {
+                spec.setDishId(dish.getDishId());
             }
             dishSpecsTableService.saveBatch(specs);
         }
-
     }
 
     @Override

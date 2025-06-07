@@ -11,7 +11,7 @@ import lombok.Data;
 public class AddressTable {
     @TableId(type = IdType.AUTO)
     private Long addressId;
-    private String openid;
+    private String openId;
     private String userName;
     private String phone;
     private String area;

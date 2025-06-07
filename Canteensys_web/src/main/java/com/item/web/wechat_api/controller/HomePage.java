@@ -41,7 +41,7 @@ public class HomePage {
     @GetMapping("/getHotList")
     public ResultVo getHotList() {
         QueryWrapper<DishTable> query = new QueryWrapper<>();
-        query.lambda().eq(DishTable::getHot, "1")
+        query.lambda().eq(DishTable::getHot, "1").eq(DishTable::getOnload, "1")
                 .orderByAsc(DishTable::getOrderNum);
         List<DishTable> list = dishTableService.list(query);
 

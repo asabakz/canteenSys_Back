@@ -27,6 +27,10 @@ public class WechatCategory {
 
     @Autowired
     private CategoryTableService categoryTableService;
+
+    @Autowired
+    private DishSpecsTableService dishSpecsTableService;
+
     // 各分类菜品查询
     @GetMapping("/getDishList")
     public ResultVo getDishList() {
@@ -38,9 +42,21 @@ public class WechatCategory {
                 // 查询分类下面的菜品
                 QueryWrapper<DishTable> queryWrapper = new QueryWrapper<>();
                 queryWrapper.lambda().eq(DishTable::getCategoryId, list.get(i).getCategoryId())
+                        .eq(DishTable::getOnload,"1")
                         .orderByAsc(DishTable::getOrderNum);
                 List<DishTable> dish = dishTableService.list(queryWrapper);
                 list.get(i).setDish(dish);
+
+                if (dish.size() > 0) {
+                    for (int j = 0; j < dish.size(); j++) {
+                        // 查询价格
+                        QueryWrapper<DishSpecsTable> queryWrapperPrice = new QueryWrapper<>();
+                        queryWrapperPrice.lambda().eq(DishSpecsTable::getDishId, dish.get(j).getDishId())
+                                .orderByAsc(DishSpecsTable::getOrderNum);
+                        List<DishSpecsTable> specs = dishSpecsTableService.list(queryWrapperPrice);
+                        dish.get(j).setSpecs(specs);
+                    }
+                }
             }
         }
         return ResultUtils.success("查询成功", list);

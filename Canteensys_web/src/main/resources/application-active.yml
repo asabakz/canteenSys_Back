@@ -22,16 +22,16 @@ mybatis-plus:
 
 # 菜品图片上传
 web:
-  uploadpath: E:/DishImages/
-  load-path: file:E:/DishImages/
+  uploadpath: D:/AAAClutter/DishImages/
+  load-path: file:D:/AAAClutter/DishImages/
 
-  # 微信小程序相关
-  Wechat:
-    Applets:
-      # 小程序appID
-      appId: wx05eda073665c9384
-      # 小程序秘钥
-      appSecret: 362870028db018bc2a0cf1081bf68763
+# 微信小程序相关
+wechat:
+  applets:
+    # 小程序appID
+    appId: wxe3ac42a3af936d4a
+    # 小程序秘钥
+    appSecret: ccf80578e1b484622cb2fab533257c43
 
 
 logging:

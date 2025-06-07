@@ -16,5 +16,8 @@ public class DishParm {
     private String hot;
     private String dishUnit;
     private String orderNum;
+
+    private String onload;
+
     private List<DishSpecsTable> specs = new ArrayList<>();
 }
