@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 public class OrderParm {
-    private String openid;
+    private String openId;
     private String userName;
     private String phone;
     private String address;
