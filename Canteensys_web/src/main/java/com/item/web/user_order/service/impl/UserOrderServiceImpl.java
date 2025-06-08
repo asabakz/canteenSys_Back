@@ -1,9 +1,14 @@
 package com.item.web.user_order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.item.web.user_order.entity.OrderParm;
 import com.item.web.user_order.entity.ParmDetail;
 import com.item.web.user_order.entity.UserOrder;
+import com.item.web.user_order.entity.WxOrderParm;
 import com.item.web.user_order.mapper.UserOrderMapper;
 import com.item.web.user_order.service.UserOrderService;
 import com.item.web.user_order_detail.entity.UserOrderDetail;
@@ -48,5 +53,50 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
             userOrderDetailService.saveBatch(list);
         }
     }
+
+
+    @Override
+    public IPage<UserOrder> getOrderList(WxOrderParm parm) {
+        QueryWrapper<UserOrder> query = new QueryWrapper<>();
+        query.lambda().eq(UserOrder::getOpenid, parm.getOpenId())
+                .eq(StringUtils.isNotEmpty(parm.getType()), UserOrder::getStatus, parm.getType()).orderByDesc(UserOrder::getCreateTime);
+        IPage<UserOrder> page = new Page<>(parm.getCurrentPage(), parm.getPagesize());
+        IPage<UserOrder> order = this.baseMapper.selectPage(page, query);
+
+        // 设置订单表
+        if(order.getRecords().size() > 0){
+            for(int i = 0; i < order.getRecords().size(); i++){
+                QueryWrapper<UserOrderDetail> queryWrapper = new QueryWrapper<>();
+                queryWrapper.lambda().eq(UserOrderDetail::getOrderId, order.getRecords().get(i).getOrderId());
+                List<UserOrderDetail> list = userOrderDetailService.list(queryWrapper);
+                order.getRecords().get(i).setDishList(list);
+            }
+        }
+        return order;
+    }
+
+    @Override
+    public IPage<UserOrder> getManageOrderList(WxOrderParm parm) {
+        QueryWrapper<UserOrder> query = new QueryWrapper<>();
+        query.lambda().eq(StringUtils.isNotEmpty(parm.getType()), UserOrder::getStatus, parm.getType())
+                .like(StringUtils.isNotEmpty(parm.getUserName()), UserOrder::getUserName, parm.getUserName())
+                .orderByDesc(UserOrder::getCreateTime);
+
+        IPage<UserOrder> page = new Page<>(parm.getCurrentPage(), parm.getPagesize());
+        IPage<UserOrder> order = this.baseMapper.selectPage(page, query);
+
+
+        // 设置订单表
+        if(order.getRecords().size() > 0){
+            for(int i = 0; i < order.getRecords().size(); i++){
+                QueryWrapper<UserOrderDetail> queryWrapper = new QueryWrapper<>();
+                queryWrapper.lambda().eq(UserOrderDetail::getOrderId, order.getRecords().get(i).getOrderId());
+                List<UserOrderDetail> list = userOrderDetailService.list(queryWrapper);
+                order.getRecords().get(i).setDishList(list);
+            }
+        }
+        return order;
+    }
+
 
 }
