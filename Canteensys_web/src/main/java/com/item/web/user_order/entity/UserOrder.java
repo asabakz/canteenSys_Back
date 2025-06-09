@@ -17,7 +17,7 @@ import java.util.List;
 public class UserOrder {
     @TableId(type = IdType.AUTO)
     private Long orderId;
-    private String openId;
+    private String openid;
     private String userName;
     private String phone;
     private String address;

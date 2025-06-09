@@ -13,10 +13,10 @@ public class UserOrderDetail {
     @TableId(type = IdType.AUTO)
     private Long detailId;
     private Long orderId;
-    private Long dishId;
-    private String dishImage;
-    private String dishName;
-    private String dishUnit;
+    private Long goodsId;
+    private String goodsImage;
+    private String goodsName;
+    private String goodsUnit;
     private String specsName;
     private BigDecimal price;
     private Integer num;
