@@ -3,4 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.item.web.user_order_detail.mapper.UserOrderDetailMapper">
+    <select id="getDays" resultType="com.item.web.user_order.entity.SumList">
+        select DATE_FORMAT(create_time,'%Y-%m-%d') days, sum(price) price from user_order where `status` = '2' group by days order by days asc
+    </select>
+    <select id="getMonths" resultType="com.item.web.user_order.entity.SumList">
+        select DATE_FORMAT(create_time,'%Y-%m') days, sum(price) price from user_order where `status` = '2' group by days order by days asc
+    </select>
+    <select id="getYears" resultType="com.item.web.user_order.entity.SumList">
+        select DATE_FORMAT(create_time,'%Y') days, sum(price) price from user_order where `status` = '2' group by days order by days asc
+    </select>
+
 </mapper>

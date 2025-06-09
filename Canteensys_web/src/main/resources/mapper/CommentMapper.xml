@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--报错 无法解析 表 程序仍能正常运行 这是查询表单的mySQL语句，我还没测试
+     wx user表，我没创建，在创建后可以检查下面语句中的变量命名
+     消除错误需要数据库连接已在 IDE 中配置并且已同步表结构-->
+<mapper namespace="com.item.web.Comment.mapper.CommentMapper">
+    <select id="commentList" resultType="com.item.web.Comment.entity.Comment">
+        select w.nick_name,w.avatar_url,g.* from comment as g inner join wx_user as w on g.open_id = w.open_id
+        where g.goods_id = #{goodsId}
+    </select>
+    <select id="getList" resultType="com.item.web.Comment.entity.Comment">
+        SELECT c.*,u.avatar_url,u.nick_name,gs.goods_name,gs.goods_image
+        FROM comment as c
+                 inner join wx_user as u on c.open_id = u.open_id
+                 inner join goods as gs on gs.goods_id = c.goods_id
+        order by c.create_time desc
+    </select>
+</mapper>

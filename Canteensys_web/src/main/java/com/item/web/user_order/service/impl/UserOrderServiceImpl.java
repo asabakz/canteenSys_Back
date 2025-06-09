@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.item.web.user_order.entity.OrderParm;
-import com.item.web.user_order.entity.ParmDetail;
-import com.item.web.user_order.entity.UserOrder;
-import com.item.web.user_order.entity.WxOrderParm;
+import com.item.web.user_order.entity.*;
 import com.item.web.user_order.mapper.UserOrderMapper;
 import com.item.web.user_order.service.UserOrderService;
 import com.item.web.user_order_detail.entity.UserOrderDetail;
@@ -102,6 +99,22 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
             }
         }
         return order;
+    }
+
+    @Override
+    public List<SumList> getDays() {
+        return this.baseMapper.getDays();
+    }
+
+    @Override
+    public List<SumList> getMonths() {
+        return this.baseMapper.getMonths();
+    }
+
+
+    @Override
+    public List<SumList> getYears() {
+        return this.baseMapper.getYears();
     }
 
 

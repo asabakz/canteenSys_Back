@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.item.utils.ResultUtils;
 import com.item.utils.ResultVo;
-import com.item.web.user_order.entity.OrderParm;
-import com.item.web.user_order.entity.SendParm;
-import com.item.web.user_order.entity.UserOrder;
-import com.item.web.user_order.entity.WxOrderParm;
+import com.item.web.user_order.entity.*;
 import com.item.web.user_order.service.UserOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/wxapi/order")
@@ -50,6 +49,29 @@ public class UserOrderController {
             return ResultUtils.success("更新成功！");
         }
         return ResultUtils.error("更新失败！");
+    }
+
+    @GetMapping("/getTotal")
+    public ResultVo getTotal(String type) {
+        List<SumList> list = null;
+        switch (type) {
+            case "1":
+                list = userOrderService.getMonths();
+                break;
+            case "2":
+                list = userOrderService.getYears();
+                break;
+            default:
+                list = userOrderService.getDays();
+        }
+        Echarts echarts = new Echarts();
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                echarts.getNames().add(list.get(i).getDays());
+                echarts.getValues().add(list.get(i).getPrice());
+            }
+        }
+        return ResultUtils.success("查询成功", echarts);
     }
 
 
