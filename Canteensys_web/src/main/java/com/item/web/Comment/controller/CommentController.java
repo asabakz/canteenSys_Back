@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -38,6 +39,7 @@ public class CommentController {
             for (int i = 0; i < list.size(); i++) {
                 Comment temp = new Comment();
                 BeanUtils.copyProperties(goodsComment, temp);
+                temp.setCreateTime(new Date());
                 temp.setGoodsId(list.get(i).getGoodsId());
                 CommentList.add(temp);
             }
@@ -45,6 +47,13 @@ public class CommentController {
         //批量插入
         commentService.saveBatch(CommentList);
         return ResultUtils.success("评论成功");
+    }
+
+    //小程序评论接口
+    @GetMapping("/commentList")
+    public ResultVo commentList(Long goodsId){
+        List<Comment> list = commentService.commentList(goodsId);
+        return ResultUtils.success("查询成功",list);
     }
 
     //管理端列表查询

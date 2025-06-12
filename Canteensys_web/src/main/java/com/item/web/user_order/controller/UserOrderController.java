@@ -1,5 +1,6 @@
 package com.item.web.user_order.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.item.utils.ResultUtils;
@@ -41,6 +42,13 @@ public class UserOrderController {
 
     @PutMapping("/sendorder")
     public ResultVo sendOrder(@RequestBody SendParm parm) {
+        QueryWrapper<UserOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(UserOrder::getOrderId, parm.getOrderId())
+                .eq(UserOrder::getStatus,"3");
+        UserOrder one = userOrderService.getOne(queryWrapper);
+        if(one!=null){
+            return ResultUtils.error("订单已被取消！");
+        }
         // 更新条件
         LambdaUpdateWrapper<UserOrder> query = new LambdaUpdateWrapper<>();
         query.eq(UserOrder::getOrderId, parm.getOrderId())
@@ -49,6 +57,25 @@ public class UserOrderController {
             return ResultUtils.success("更新成功！");
         }
         return ResultUtils.error("更新失败！");
+    }
+
+    @PostMapping("/cancelOrder")
+    public ResultVo cancelOrder(@RequestBody SendParm parm) {
+        QueryWrapper<UserOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(UserOrder::getOrderId, parm.getOrderId())
+                .eq(UserOrder::getStatus,"1");
+        UserOrder one = userOrderService.getOne(queryWrapper);
+        if(one!=null){
+            return ResultUtils.error("订单已发货！");
+        }
+        // 更新条件
+        LambdaUpdateWrapper<UserOrder> query = new LambdaUpdateWrapper<>();
+        query.eq(UserOrder::getOrderId, parm.getOrderId())
+                .set(UserOrder::getStatus, "3");
+        if (userOrderService.update(query)) {
+            return ResultUtils.success("取消成功！");
+        }
+        return ResultUtils.error("取消失败！");
     }
 
     @GetMapping("/getTotal")

@@ -63,7 +63,7 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
         QueryWrapper<UserOrder> query = new QueryWrapper<>();
         query.lambda().eq(UserOrder::getOpenid, parm.getOpenid())
                 .eq(StringUtils.isNotEmpty(parm.getType()), UserOrder::getStatus, parm.getType()).orderByDesc(UserOrder::getCreateTime);
-        IPage<UserOrder> page = new Page<>(parm.getCurrentPage(), parm.getPagesize());
+        IPage<UserOrder> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         IPage<UserOrder> order = this.baseMapper.selectPage(page, query);
 
         // 设置订单表
@@ -85,7 +85,7 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
                 .like(StringUtils.isNotEmpty(parm.getUserName()), UserOrder::getUserName, parm.getUserName())
                 .orderByDesc(UserOrder::getCreateTime);
 
-        IPage<UserOrder> page = new Page<>(parm.getCurrentPage(), parm.getPagesize());
+        IPage<UserOrder> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());//88行
         IPage<UserOrder> order = this.baseMapper.selectPage(page, query);
 
 

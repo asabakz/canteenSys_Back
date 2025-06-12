@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.item.web.user_order_detail.entity.UserOrderDetail;
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class UserOrder {
     private String phone;
     private String address;
     private BigDecimal price;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
     private String status;
 

@@ -7,14 +7,14 @@
      消除错误需要数据库连接已在 IDE 中配置并且已同步表结构-->
 <mapper namespace="com.item.web.Comment.mapper.CommentMapper">
     <select id="commentList" resultType="com.item.web.Comment.entity.Comment">
-        select w.nick_name,w.avatar_url,g.* from comment as g inner join wx_user as w on g.open_id = w.open_id
+        select w.nick_name,w.avatar_url,g.* from comment as g inner join wx_user as w on g.openid = w.openid
         where g.goods_id = #{goodsId}
     </select>
     <select id="getList" resultType="com.item.web.Comment.entity.Comment">
-        SELECT c.*,u.avatar_url,u.nick_name,gs.goods_name,gs.goods_image
+        SELECT c.*,u.avatar_url,u.nick_name,gs.dish_name,gs.dish_image
         FROM comment as c
-                 inner join wx_user as u on c.open_id = u.open_id
-                 inner join goods as gs on gs.goods_id = c.goods_id
+                 inner join wx_user as u on c.openid = u.openid
+                 inner join dish_table as gs on gs.dish_id = c.goods_id
         order by c.create_time desc
     </select>
 </mapper>

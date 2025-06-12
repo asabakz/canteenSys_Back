@@ -10,6 +10,8 @@ import com.item.web.Comment.mapper.CommentMapper;
 import com.item.web.Comment.service.CommentService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
     @Override
@@ -17,5 +19,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         Page<Comment> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         return this.baseMapper.getList(page);
     }
+
+    @Override
+    public List<Comment> commentList(Long goodsId) {
+        return this.baseMapper.commentList(goodsId);
+    }
+
 }
 

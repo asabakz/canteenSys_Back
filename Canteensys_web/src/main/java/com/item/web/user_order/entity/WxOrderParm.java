@@ -8,6 +8,6 @@ public class WxOrderParm {
     private String type;
     private String userName;
     private Long currentPage;
-    private Long pagesize;
+    private Long pageSize;
 }
 
