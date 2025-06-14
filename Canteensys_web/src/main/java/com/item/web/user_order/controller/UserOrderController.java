@@ -78,6 +78,20 @@ public class UserOrderController {
         return ResultUtils.error("取消失败！");
     }
 
+    //确认收货
+    @PostMapping("/confirmOrder")
+    public ResultVo confirmOrder(@RequestBody SendParm parm) {
+        // 更新条件
+        LambdaUpdateWrapper<UserOrder> query = new LambdaUpdateWrapper<>();
+        query.eq(UserOrder::getOrderId, parm.getOrderId())
+                .set(UserOrder::getStatus, "2");
+        if (userOrderService.update(query)) {
+            return ResultUtils.success("收货成功！");
+        }
+        return ResultUtils.error("收货失败！");
+    }
+
+
     @GetMapping("/getTotal")
     public ResultVo getTotal(String type) {
         List<SumList> list = null;
